@@ -1,18 +1,16 @@
 pipeline {
-    agent none 
+    agent any
     stages {
-        stage('Example Build') {
-            agent { docker 'maven:3.8.1-adoptopenjdk-11' } 
+        stage('Creating Docker Image') {
             steps {
-                echo 'Hello, Maven'
-                sh 'mvn --version'
+                echo 'Building Docker Image'
+                sh 'docker build -t nodejs-app .'
             }
         }
-        stage('Example Test') {
-            agent { docker 'openjdk:8-jre' } 
+        stage('compose up') {
             steps {
-                echo 'Hello, JDK'
-                sh 'java -version'
+                echo 'bringingup node and sql container'
+                sh 'docker compose up -d '
             }
         }
     }
